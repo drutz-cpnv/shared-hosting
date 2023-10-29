@@ -3,7 +3,7 @@
 -[ ] Install
   - [ ] PHP FPM
     - Install
-      - ```apt-get update && sudo apt-get upgrade --show-upgradedd```
+      - ```apt-get update && apt-get upgrade --show-upgradedd```
       - ```apt-get upgrade --show-upgraded```
       - ```apt-get install php8.2-fpm```
     - Configuration
