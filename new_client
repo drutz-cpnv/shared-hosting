@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# Verify if executing user is root
+if [ "$EUID" -ne 0 ]; then
+  echo "Ce script doit être exécuté en tant que root."
+  exit 1
+fi
+
+
+
+# Ask customer name
+read -p "> Enter new customer username: " new_username
+
+# Verify if customer is already exist
+if id "$new_username" &>/dev/null; then
+  echo "User $new_username already exist."
+  exit 1
+fi
+
+# Generate password
+password=$(date +%s | sha256sum | base64 | head -c 12)
+
+# User creation
+useradd -m -s /bin/bash "$new_username"
+echo "$new_username:$password" | chpasswd
+
+# Create user home directory
+mkdir -p /home/"$new_username"/www /home/"$new_username"/logs
+chown -R "$new_username":"$new_username" /home/"$new_username"/www
+
+# TODO: Add configuration of MariaDB for customer
+
+read -p "> Enter customer domain name: " domain_name
+
+# Create PHP FPM customer configuration file
+cat > /etc/php/8.2/fpm/pool.d/"$new_username".conf <<EOF
+[$new_username]
+user = $new_username
+group = $new_username
+listen = /var/run/php/php8.2-fpm_$new_username.sock
+listen.owner = www-data
+listen.group = www-data
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3
+
+env[HOSTNAME] = $HOSTNAME
+env[TEMP] = /tmp
+
+EOF
+
+# Restart PHP FPM service
+systemctl restart php8.2-fpm
+
+# Create NGINX customer configuration file
+cat > /etc/nginx/sites-available/"$new_username".conf <<EOF
+server {
+    listen 80;
+    server_name $domain_name www.$domain_name;
+
+    access_log /home/$new_username/logs/$domain_name-access.log;
+    error_log  /home/$new_username/logs/$domain_name-error.log;
+    root /home/$new_username/www;
+    index index.php;
+
+    location ~ \.php$ {
+        include fastcgi_params;
+	fastcgi_index index.php;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm_$new_username.sock;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+    }
+}
+EOF
+
+# Activate new site config
+ln -s /etc/nginx/sites-available/"$new_username".conf /etc/nginx/sites-enabled/
+
+# Restart NGINX service
+systemctl reload nginx
+
+echo "Customer $new_username have been created successfully."
+echo "Customer username: $new_username"
+echo "Customer password: $password"
