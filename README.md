@@ -74,7 +74,7 @@ echo "umask 0027" >> /etc/skel/.bashrc
 
 ```shell
 # as root
-apt update && apt upgrade --show-upgradedd
+apt update && apt upgrade
 ```
 
 ```shell
@@ -121,3 +121,16 @@ mariadb-secure-installation
 > Reload privilege tables now? [Y/n] — Y
 ```
 
+# Création d'un nouveau client
+
+## Ajout du script au serveur
+
+Pour ce faire copier le contenu du fichier new_client de ce dépôt dans un nouveau fichier dans le répértoire `/root` à l'aide de la commande `nano`
+
+```bash
+# as root
+nano /root/new_client
+# coller le code copié depuis la machine hôte
+# faire de ce fichier un executable
+chmod +x /root/new_client
+```
