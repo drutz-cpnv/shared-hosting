@@ -134,3 +134,13 @@ nano /root/new_client
 # faire de ce fichier un executable
 chmod +x /root/new_client
 ```
+
+## Création
+
+En utilisant le script via la commande :
+
+```bash
+~/new_client
+```
+
+Puis suivez les étapes...
