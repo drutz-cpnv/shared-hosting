@@ -6,7 +6,7 @@ Ce projet, consiste en la création d'un serveur linux pouvant héberger plusieu
 
 ### Instructions
 
-Les instructions pour ce travail, figurent dans le fichier ([SharedHosting.md](SharedHosting.md))
+Les instructions pour ce travail, figurent dans le fichier ([SharedHosting.md](instructions/SharedHosting.md))
 ## Auteurs
 
 - [@noe-zwissig](https://github.com/Witex15)
