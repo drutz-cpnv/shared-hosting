@@ -36,6 +36,7 @@ TODO: Configuration de debian via l'interface
 ### Environment
 
 ```bash
+# as root
 # add mask to bash configuration and profile configuration
 echo "umask 0027" >> /etc/skel/.profile
 echo "umask 0027" >> /etc/skel/.bashrc
