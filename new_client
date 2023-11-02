@@ -6,8 +6,6 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-
-
 # Ask customer name
 read -p "> Enter new customer username: " new_username
 
@@ -25,10 +23,36 @@ useradd -m -s /bin/bash "$new_username"
 echo "$new_username:$password" | chpasswd
 
 # Create user home directory
-mkdir -p /home/"$new_username"/www /home/"$new_username"/logs
+mkdir -p /home/"$new_username"/logs
+#==================================
+
+# Force the user to change their password on the next login
+passwd -e "$new_username"
+
+# Create directory for the website
+WEBDIR="/home/$new_username/www"
+
+# Set permissions and ownership for the home directory
+chown "$new_username":"$new_username" /home/"$new_username"
+chmod 711 /home/"$new_username"
+
+# Set permissions and setgid for the www directory
+chown -R "$new_username":www-data "$WEBDIR"
+chmod 2750 "$WEBDIR"
+
+
+#========================================
 chown -R "$new_username":"$new_username" /home/"$new_username"/www
 
-# TODO: Add configuration of MariaDB for customer
+# Connexion à MariaDB et création de la base de données et de l'utilisateur
+mariadb -u root <<EOF
+CREATE DATABASE IF NOT EXISTS $new_username;
+CREATE USER IF NOT EXISTS '$new_username'@'localhost' IDENTIFIED BY '$password';
+GRANT ALL PRIVILEGES ON $new_username.* TO '$new_username'@'localhost';
+FLUSH PRIVILEGES;
+EOF
+
+echo "Base de données '$new_username' créée avec l'utilisateur '$new_username'."
 
 read -p "> Enter customer domain name: " domain_name
 
@@ -68,7 +92,7 @@ server {
 
     location ~ \.php$ {
         include fastcgi_params;
-	fastcgi_index index.php;
+	      fastcgi_index index.php;
         fastcgi_pass unix:/var/run/php/php8.2-fpm_$new_username.sock;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
     }

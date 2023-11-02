@@ -48,17 +48,17 @@ apt update && apt upgrade --show-upgradedd
 apt install php8.2-fpm
 ```
 
+```shell
+# as root
+apt install php8.2-fpm
+```
+
 
 ### NGINX
 
 ```shell
 # as root
 apt install nginx
-```
-
-```shell
-# as root
-apt install php8.2-fpm
 ```
 
 
@@ -80,6 +80,5 @@ mariadb-secure-installation
 > Disallow root login remotely? [Y/n] — Y
 > Remove test database and access to it? [Y/n] — Y
 > Reload privilege tables now? [Y/n] — Y
-
 ```
 
