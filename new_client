@@ -40,10 +40,6 @@ chmod 711 /home/"$new_username"
 chown -R "$new_username":www-data "$WEBDIR"
 chmod 2750 "$WEBDIR"
 
-
-#========================================
-chown -R "$new_username":"$new_username" /home/"$new_username"/www
-
 # Connexion à MariaDB et création de la base de données et de l'utilisateur
 mariadb -u root <<EOF
 CREATE DATABASE IF NOT EXISTS $new_username;
