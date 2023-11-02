@@ -29,7 +29,35 @@ Vaud ([fichiers.edu-vaud.ch](https://fichiers.edu-vaud.ch/Handlers/Download.ashx
 
 #### Configuration de Debian
 
-TODO: Configuration de debian via l'interface
+- Sélectionner `Install`
+- Sélectionner votre langue favorite (anglais dans notre cas)
+- Sélectionner `switzerland`
+- Sélectionner votre disposition de clavier
+- Insérer le nom de la machine: `sharedhosting`
+- Laisser le domaine vide
+- Insérer votre mdp pour root: `votreMDP`
+- Confirmé votre mdp `votreMDP`
+- Créer un nouvel utilisateur: `votreNomComplet`
+- Insérer le nom d'utilisateur: `votreNomUtilisateur`
+- Insérer un mdp pour votre utilisateur: `votreMDPUtilisateur`
+- Confirmé votre mdp `votreMDPUtilisateur`
+- Sélectionner `Guided - use entire disk`
+- Sélectionner votre disque dur
+- Sélectionner `All files in one partition`
+- Sélectionner `Finish partitioning and write changes to disk`
+- Sélectionner `Yes`
+- Sélectionner `No`
+- Sélectionner votre pays le plus proche
+- Sélectionner `deb.debian.org`
+- Sélectionner `continue`
+- Sélectionner `No`
+- Désélectionner `Debian desktop environment`
+- Désélectionner `GNOME`
+- Sélectionner `ssh server`
+- Sélectionner `continue`
+- Sélectionner `Yes`
+- Sélectionner `/dev/sda`
+- Sélectionner `continue`
 
 ## Configuration
 
