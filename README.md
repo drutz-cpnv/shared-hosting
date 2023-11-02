@@ -68,6 +68,16 @@ Vaud ([fichiers.edu-vaud.ch](https://fichiers.edu-vaud.ch/Handlers/Download.ashx
 # add mask to bash configuration and profile configuration
 echo "umask 0027" >> /etc/skel/.profile
 echo "umask 0027" >> /etc/skel/.bashrc
+# add www as default directory in user skeleton home dir
+mkdir /etc/skel/www
+```
+
+```bash
+# as root
+nano /etc/skel/www/index.php
+# coller le code copié dans le fichier base/index.php depuis la machine hôte
+nano /etc/skel/www/info.php
+# coller le code copié dans le fichier base/info.php depuis la machine hôte
 ```
 
 ### PHP FPM
@@ -125,7 +135,8 @@ mariadb-secure-installation
 
 ## Ajout du script au serveur
 
-Pour ce faire copier le contenu du fichier new_client de ce dépôt dans un nouveau fichier dans le répértoire `/root` à l'aide de la commande `nano`
+Pour ce faire copier le contenu du fichier new_client de ce dépôt dans un nouveau fichier dans le répértoire `/root` à
+l'aide de la commande `nano`
 
 ```bash
 # as root
