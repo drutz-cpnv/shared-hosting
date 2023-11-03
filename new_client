@@ -24,7 +24,6 @@ echo "$new_username:$password" | chpasswd
 
 # Create user home directory
 mkdir -p /home/"$new_username"/logs
-#==================================
 
 # Force the user to change their password on the next login
 passwd -e "$new_username"
