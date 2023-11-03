@@ -29,7 +29,7 @@ mkdir -p /home/"$new_username"/logs
 # Force the user to change their password on the next login
 passwd -e "$new_username"
 
-# Create directory for the website
+# directory for the website
 WEBDIR="/home/$new_username/www"
 
 # Set permissions and ownership for the home directory
