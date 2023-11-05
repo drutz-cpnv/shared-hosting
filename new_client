@@ -17,6 +17,7 @@ fi
 
 # Generate password
 password=$(date +%s | sha256sum | base64 | head -c 12)
+password_db=$(date +%s | sha256sum | base64 | head -c 12)
 
 # User creation
 useradd -m -s /bin/bash "$new_username"
@@ -42,12 +43,10 @@ chmod 2750 "$WEBDIR"
 # Connexion à MariaDB et création de la base de données et de l'utilisateur
 mariadb -u root <<EOF
 CREATE DATABASE IF NOT EXISTS $new_username;
-CREATE USER IF NOT EXISTS '$new_username'@'localhost' IDENTIFIED BY '$password';
+CREATE USER IF NOT EXISTS '$new_username'@'localhost' IDENTIFIED BY '$password_db';
 GRANT ALL PRIVILEGES ON $new_username.* TO '$new_username'@'localhost';
 FLUSH PRIVILEGES;
 EOF
-
-echo "Base de données '$new_username' créée avec l'utilisateur '$new_username'."
 
 read -p "> Enter customer domain name: " domain_name
 
@@ -101,5 +100,10 @@ ln -s /etc/nginx/sites-available/"$new_username".conf /etc/nginx/sites-enabled/
 systemctl reload nginx
 
 echo "Customer $new_username have been created successfully."
+echo ""
+echo "============[Database]============"
+echo "Database '$new_username' have been created using username '$new_username' and password '$password_db'"
+echo ""
+echo "============[SSH/Debian]============"
 echo "Customer username: $new_username"
 echo "Customer password: $password"

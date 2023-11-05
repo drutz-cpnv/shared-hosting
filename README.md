@@ -72,13 +72,8 @@ echo "umask 0027" >> /etc/skel/.bashrc
 mkdir /etc/skel/www
 ```
 
-```bash
-# as root
-nano /etc/skel/www/index.php
-# coller le code copié dans le fichier base/index.php depuis la machine hôte
-nano /etc/skel/www/info.php
-# coller le code copié dans le fichier base/info.php depuis la machine hôte
-```
+Puis vous pouvez copier le contenu du dossier `base` dans le dossier `www` du serveur distant.
+
 
 ### PHP FPM
 
@@ -135,13 +130,10 @@ mariadb-secure-installation
 
 ## Ajout du script au serveur
 
-Pour ce faire copier le contenu du fichier new_client de ce dépôt dans un nouveau fichier dans le répértoire `/root` à
-l'aide de la commande `nano`
+Pour ce faire copier le fichier new_client de ce dépôt dans le répértoire `/root`. Puis d'accorder les droits d'execution sur le fichier.
 
 ```bash
 # as root
-nano /root/new_client
-# coller le code copié depuis la machine hôte
 # faire de ce fichier un executable
 chmod +x /root/new_client
 ```
